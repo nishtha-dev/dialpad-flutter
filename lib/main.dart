@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:dialpad/display.dart';
+import 'package:dialpad/dummyData.dart';
+
 import 'package:flutter/material.dart';
 import 'dialpad_number.dart';
 //import 'display.dart';
@@ -51,7 +53,12 @@ class _DialpadState extends State<Dialpad> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Display(number: number, backspace: backspace),
+            DummyData(),
+            (number != null && number.length != 0)
+                ? Display(number: number, backspace: backspace)
+                : Container(),
+
+            //Display(number: number, backspace: backspace),
             Divider(
               height: 20.0,
               color: Colors.white,

@@ -15,7 +15,7 @@ class Display extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 5,
+      flex: 1,
       child: Container(
         alignment: Alignment.bottomCenter,
         child: Row(
