@@ -1,4 +1,5 @@
 import 'package:dialpad/dummyDataList.dart';
+import 'package:dialpad/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 // class FilteredOutput extends StatefulWidget {
@@ -45,73 +46,63 @@ import 'package:flutter/material.dart';
 
 class DummyData extends StatefulWidget {
   String number;
-  DummyData({this.number = ''});
-  String abcd = '1234';
+  List<DummyDataList> setNumbersList;
+  DummyData({this.number = '', this.setNumbersList});
+  //String abcd = '1234';
 
   @override
   _DummyDataState createState() => _DummyDataState();
 }
 
 class _DummyDataState extends State<DummyData> {
-  List<DummyDataList> filteredNumbers = [];
-  List<DummyDataList> setNumbersList = [];
-
-  void isStringMatch() {
-    print(numbers.length);
-
-    for (var i = 0; i < numbers.length; i++) {
-      print(numbers[i].phoneNumber);
-      print('abcd : ${widget.abcd.contains('9')}');
-      if (numbers[i].phoneNumber.contains(widget.number)) {
-        setState(() {
-          filteredNumbers.add(numbers[i]);
-        });
-      }
-    }
-    setState(() {
-      setNumbersList = (filteredNumbers != null) ? filteredNumbers : numbers;
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    isStringMatch();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 5,
-      child: ListView.builder(
-          itemCount: setNumbersList.length,
-          itemBuilder: (context, index) {
-            // return (number != null && number.length != 0)
-            //     ? FilteredOutput(number: number)
-            //     :
-
-            return ListTile(
-              onTap: () {},
-              title: Text(
-                setNumbersList[index].name,
+      child: (widget.setNumbersList.isEmpty)
+          ? Container(
+              alignment: Alignment.topCenter,
+              child: Text(
+                'No search found 🤷 😅',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
                 ),
               ),
-              subtitle: Text(
-                setNumbersList[index].phoneNumber,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://thumbs.dreamstime.com/z/default-avatar-profile-flat-icon-vector-contact-symbol-illustration-184752213.jpg'),
-              ),
-            );
-          }),
+            )
+          : ListView.builder(
+              itemCount: widget.setNumbersList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {},
+                  title: Text(
+                    widget.setNumbersList[index].name,
+                    style: TextStyle(
+                      color: primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                  subtitle: Text(
+                    widget.setNumbersList[index].phoneNumber,
+                    style: TextStyle(
+                      color: primaryColor,
+                    ),
+                  ),
+                  leading: CircleAvatar(
+                    //
+                    child: Text(
+                      widget.setNumbersList[index].name[0].toUpperCase(),
+                      style: TextStyle(
+                        color: accent1,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    backgroundColor: primaryColor,
+                  ),
+                );
+              }),
     );
   }
 }
