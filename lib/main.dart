@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'numpadData.dart';
 import 'package:dialpad/display.dart';
 import 'package:dialpad/dummyData.dart';
 import 'package:dialpad/dummyDataList.dart';
@@ -23,11 +23,15 @@ class _DialpadState extends State<Dialpad> {
   List<DummyDataList> filteredNumbers = [];
   List<DummyDataList> setNumbersList = numbers;
   List<DummyDataList> emptyList = [];
+  List<String> compareName = [];
+  List<DummyDataList> filteredName = [];
+  List<DummyDataList> setNameList = [];
 
   void updateNumber(String i) {
     print('zz::::${filteredNumbers.length}');
     setState(() {
       filteredNumbers.clear();
+      filteredName.clear();
       number += i;
     });
   }
@@ -35,6 +39,7 @@ class _DialpadState extends State<Dialpad> {
   backspace() {
     setState(() {
       filteredNumbers.clear();
+      filteredName.clear();
       number = number.substring(0, number.length - 1);
       // if (number.isEmpty) filteredNumbers.clear();
       isStringMatch();
@@ -67,6 +72,61 @@ class _DialpadState extends State<Dialpad> {
     });
   }
 
+  Function inputNameList(int index) {
+    print('list1- $compareName');
+    if (compareName.isEmpty) {
+      print('digit  length ${digit[index].length}');
+      for (var i = 1; i < digit[index].length; i++) {
+        compareName.add(digit[index][i]);
+      }
+      print(compareName.length);
+      print('list - $compareName');
+    } else {
+      int length = compareName.length;
+      List<String> a = List.from(compareName);
+      //var a=compareName;
+      print(a);
+      compareName.clear();
+      //print(a);
+      print(length);
+
+      for (var i = 0; i < length; i++) {
+        print('digit  length ${digit[index].length}');
+        for (var j = 1; j < digit[index].length; j++) {
+          compareName.add(a[i] + digit[index][j]);
+        }
+      }
+    }
+  }
+
+  void isNameStringMatch(int index) {
+    //print(numbers.length);
+    //print("1filter:::${filteredNumbers.length}");
+    String inputName;
+    inputNameList(index);
+    for (var i = 0; i < compareName.length; i++) {
+      inputName = compareName[i];
+
+      for (var i = 0; i < inputName.length; i++) {
+        //print(numbers[i].phoneNumber);
+        // print('abcd : ${widget.abcd.contains('9')}');
+
+        if (numbers[i].name.contains(inputName)) {
+          setState(() {
+            //print('nos:::${numbers[i].phoneNumber}');
+            filteredName.add(numbers[i]);
+          });
+        }
+      }
+      //print("filter:::${filteredNumbers.length}");
+      setState(() {
+        //print('set::${setNumbersList.length}');
+        setNameList = (filteredName.isEmpty) ? emptyList : filteredName;
+        // print('set1::${setNumbersList.length}');
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,6 +154,7 @@ class _DialpadState extends State<Dialpad> {
             DummyData(
               number: number,
               setNumbersList: setNumbersList,
+              setNameList: setNameList,
             ),
             (number != null && number.length != 0)
                 ? Display(number: number, backspace: backspace)
@@ -116,15 +177,18 @@ class _DialpadState extends State<Dialpad> {
                         DialpadButton(
                             digit: '1',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                         DialpadButton(
                             digit: '2',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                         DialpadButton(
                             digit: '3',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                       ],
                     ),
                   ),
@@ -139,15 +203,18 @@ class _DialpadState extends State<Dialpad> {
                         DialpadButton(
                             digit: '4',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                         DialpadButton(
                             digit: '5',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                         DialpadButton(
                             digit: '6',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                       ],
                     ),
                   ),
@@ -162,15 +229,18 @@ class _DialpadState extends State<Dialpad> {
                         DialpadButton(
                             digit: '7',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                         DialpadButton(
                             digit: '8',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                         DialpadButton(
                             digit: '9',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                       ],
                     ),
                   ),
@@ -185,15 +255,18 @@ class _DialpadState extends State<Dialpad> {
                         DialpadButton(
                             digit: '*',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                         DialpadButton(
                             digit: '0',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                         DialpadButton(
                             digit: '#',
                             updateNumber: updateNumber,
-                            isStringMatch: isStringMatch),
+                            isStringMatch: isStringMatch,
+                            isNameStringMatch: isNameStringMatch),
                       ],
                     ),
                   ),
