@@ -6,9 +6,14 @@ import 'package:flutter/material.dart';
 class DialpadButton extends StatelessWidget {
   Function updateNumber;
   Function isStringMatch;
+  Function isNameStringMatch;
   String digit;
 
-  DialpadButton({this.digit, this.updateNumber, this.isStringMatch});
+  DialpadButton(
+      {this.digit,
+      this.updateNumber,
+      this.isStringMatch,
+      this.isNameStringMatch});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +22,7 @@ class DialpadButton extends StatelessWidget {
         onTap: () {
           updateNumber(digit);
           isStringMatch();
+          isNameStringMatch(int.parse(digit));
         },
         child: Center(
             child: Text(

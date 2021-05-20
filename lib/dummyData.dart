@@ -47,7 +47,12 @@ import 'package:flutter/material.dart';
 class DummyData extends StatefulWidget {
   String number;
   List<DummyDataList> setNumbersList;
-  DummyData({this.number = '', this.setNumbersList});
+  List<DummyDataList> setNameList;
+  DummyData({this.number = '', this.setNumbersList, this.setNameList});
+  List<DummyDataList> updateList() {
+    setNumbersList.addAll(setNameList);
+    return setNumbersList;
+  }
   //String abcd = '1234';
 
   @override
@@ -59,7 +64,7 @@ class _DummyDataState extends State<DummyData> {
   Widget build(BuildContext context) {
     return Expanded(
       flex: 5,
-      child: (widget.setNumbersList.isEmpty)
+      child: (widget.updateList().isEmpty)
           ? Container(
               alignment: Alignment.topCenter,
               child: Text(
@@ -72,12 +77,12 @@ class _DummyDataState extends State<DummyData> {
               ),
             )
           : ListView.builder(
-              itemCount: widget.setNumbersList.length,
+              itemCount: widget.updateList().length,
               itemBuilder: (context, index) {
                 return ListTile(
                   onTap: () {},
                   title: Text(
-                    widget.setNumbersList[index].name,
+                    widget.updateList()[index].name,
                     style: TextStyle(
                       color: primaryColor,
                       fontWeight: FontWeight.bold,
@@ -85,7 +90,7 @@ class _DummyDataState extends State<DummyData> {
                     ),
                   ),
                   subtitle: Text(
-                    widget.setNumbersList[index].phoneNumber,
+                    widget.updateList()[index].phoneNumber,
                     style: TextStyle(
                       color: primaryColor,
                     ),
@@ -93,7 +98,7 @@ class _DummyDataState extends State<DummyData> {
                   leading: CircleAvatar(
                     //
                     child: Text(
-                      widget.setNumbersList[index].name[0].toUpperCase(),
+                      widget.updateList()[index].name[0].toUpperCase(),
                       style: TextStyle(
                         color: accent1,
                         fontWeight: FontWeight.bold,
